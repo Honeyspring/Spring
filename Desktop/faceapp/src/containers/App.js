@@ -2,6 +2,8 @@ import React ,{Component}from 'react';
 import Clarifai from 'clarifai';
 import '../App.css';
 import Navigation from '../components/Navigation/Navigation';
+import SignIn from '../components/SignIn/SignIn';
+import Register from '../components/Register/Register';
 import Logo from '../components/Logo/Logo';
 import InputUrl from '../components/InputUrl/InputUrl';
 import Rank from '../components/Rank/Rank';
@@ -50,10 +52,32 @@ class App extends Component{
       this.state={
         input:'',
         imageUrl:'',
-        box:{}
+        box:{},
+        route:'SignIn',
+        IsLoggedIn:false,
+        user:{
+          username:"",
+          id:"",
+          email:"",
+          password:"",
+           entries: 0,
+          joined: ""
+        }
       }
     
-  }
+}
+
+loadUser=(data)=>{
+this.setState({user:
+ { username:data.username,
+  id:data.id,
+  email:data.email,
+  password:data.password,
+   entries: data.entries,
+  joined: data.joined
+ }
+})
+}
   onInputChange=(event)=>{
     this.setState({input:event.target.value});
   }
@@ -74,27 +98,80 @@ class App extends Component{
     console.log(box);
     this.setState({box:box})
   }
-  onButtonClick=()=>{
+ onRouteChange=(route)=>{
+   if(route=== 'SignIn'){
+    this.setState({IsLoggedIn: false})
+   }else if(route=== 'home'){
+    this.setState({IsLoggedIn: true})
+   }
+   this.setState({route:route});
+ }
+  onPictureSubmit=()=>{
     //console.log('clicked');
     this.setState({imageUrl:this.state.input});
     app.models.predict(Clarifai.FACE_DETECT_MODEL,
           // URL
     this.state.input )
-      .then(response =>this.displayFaceBox(this.calculateFaceBoundary(response)))
-      .catch(err => console.log(err));
+    .then(response =>{
+       if(response){
+        fetch("http://localhost:3000/Rank",
+        {
+          method:"put",
+          headers:{"content-Type":"application/json"},
+          body:JSON.stringify({
+          id:this.state.user.id
+                          })
+           }
+           ).then(response=>response.json())
+           .then(count=>{this.setSate(
+             Object.assign(this.state.user,
+               {entries:count}
+             
+             )
+           )})
+          .then(response=>response.json())
+          .then(user=>{
+              if(user){
+                  this.props.loadUser(user);
+                  console.log(user);
+                 this.props.onRouteChange('home');
+              }
+              } ) 
+        } 
+      this.displayFaceBox(this.calculateFaceBoundary(response))
+    })
+      .catch(err => console.log(err)); 
   }
-  render(){  
+  render(){ 
+   const {IsLoggedIn,box,route,imageUrl,user}= this.state; 
   return(
     <div className='App'>
      <Particles className='particles' params={particlesOptions}/> 
-      <Navigation/>
+      <Navigation IsLoggedIn={IsLoggedIn} onRouteChange={this.onRouteChange}/>
+     {this.state.route ==='home' ?
+     
+    <div>
        <Logo/>
-       <Rank/>
-      <InputUrl onInputChange={this.onInputChange}  onButtonClick={this.onButtonClick}/>
-    < FaceDection box={this.state.box}imageUrl={this.state.imageUrl}/>
+       <Rank username={user.username}  entries={user.entries}/>
+      <InputUrl onInputChange={this.onInputChange}  onPictureSubmit={this.onButtonClick}/>
+    < FaceDection box={box} imageUrl={imageUrl}/>
+    </div>
+     :(route ==='SignIn' ?
+  
+     <SignIn onRouteChange={this.onRouteChange}/> 
+     :  <div>
+     <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+     </div>
+     )
+  
+     
+  }
+    
     </div>
   );
   }
 }
 
 export default App;
+ 
+  
