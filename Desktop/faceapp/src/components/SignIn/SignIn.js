@@ -5,7 +5,7 @@ class SignIn extends Component {
         super( props);
           this.state={
            signInEmail:'',
-           signInPassword:'',
+           signInPassword:''
    
           }
         
@@ -18,7 +18,7 @@ class SignIn extends Component {
         this.setState({signInPassword:event.target.value});
         
     }
-    onSubmitSignIn=()=>{
+    onSubmitSignIn=(req,res)=>{
      fetch("http://localhost:3000/SignIn",
      {
      method:"post",
@@ -29,11 +29,13 @@ class SignIn extends Component {
                      })
       })
      .then(response=>response.json())
-     .then(data=>{
-         if(data ==="sucessfully signed in"){
+     .then(user=>{
+        if(user.id){
+            this.props.loadUser(user);
             this.props.onRouteChange('home');
-         }
-     })
+        }
+         
+     }).catch(error=>res.status(400).json('unable to login'))
       
     }
     render(){

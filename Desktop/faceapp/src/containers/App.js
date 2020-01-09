@@ -1,5 +1,4 @@
 import React ,{Component}from 'react';
-import Clarifai from 'clarifai';
 import '../App.css';
 import Navigation from '../components/Navigation/Navigation';
 import SignIn from '../components/SignIn/SignIn';
@@ -43,27 +42,26 @@ interactivity: {
   }
 }
  }
-const app= new Clarifai.App({
-  apiKey:'37047032eaec4831af5bd77ffb38c7f5',
-})
+
+const initialState ={
+  input:'',
+  imageUrl:'',
+  box:{},
+  route:'SignIn',
+  IsLoggedIn:false,
+  user:{
+    username:"",
+    id:"",
+    email:"",
+    password:"",
+     entries: 0,
+    joined: ""
+  }
+}
 class App extends Component{
   constructor(){
     super();
-      this.state={
-        input:'',
-        imageUrl:'',
-        box:{},
-        route:'SignIn',
-        IsLoggedIn:false,
-        user:{
-          username:"",
-          id:"",
-          email:"",
-          password:"",
-           entries: 0,
-          joined: ""
-        }
-      }
+      this.state= initialState;
     
 }
 
@@ -100,18 +98,28 @@ this.setState({user:
   }
  onRouteChange=(route)=>{
    if(route=== 'SignIn'){
-    this.setState({IsLoggedIn: false})
+    this.setState({initialState})
    }else if(route=== 'home'){
     this.setState({IsLoggedIn: true})
    }
    this.setState({route:route});
  }
-  onPictureSubmit=()=>{
+
+  onPictureSubmit=(req,res)=>{
     //console.log('clicked');
     this.setState({imageUrl:this.state.input});
-    app.models.predict(Clarifai.FACE_DETECT_MODEL,
-          // URL
-    this.state.input )
+   fetch("http://localhost:3000/ImageUrl",
+        {
+          method:"post",
+          headers:{"content-Type":"application/json"},
+          body:JSON.stringify({
+          input:this.state.input
+                          })
+           }
+           )
+           .then(response=>response.json())
+    //.catch(err =>res.status(400).json('unable to connect to Api'))
+
     .then(response =>{
        if(response){
         fetch("http://localhost:3000/Rank",
@@ -123,25 +131,25 @@ this.setState({user:
                           })
            }
            ).then(response=>response.json())
-           .then(count=>{this.setSate(
+           .then(count=>{this.setState(
              Object.assign(this.state.user,
                {entries:count}
              
              )
            )})
-          .then(response=>response.json())
+         // .then(response=>response.json())
           .then(user=>{
-              if(user){
+              if(user.id){
                   this.props.loadUser(user);
-                  console.log(user);
+                 // console.log(user);
                  this.props.onRouteChange('home');
               }
-              } ) 
+              }).catch(err =>res.status(400).json('unable to load')); 
         } 
       this.displayFaceBox(this.calculateFaceBoundary(response))
     })
-      .catch(err => console.log(err)); 
-  }
+      .catch(err =>res.status(400).json('error')); 
+  } 
   render(){ 
    const {IsLoggedIn,box,route,imageUrl,user}= this.state; 
   return(
@@ -153,12 +161,12 @@ this.setState({user:
     <div>
        <Logo/>
        <Rank username={user.username}  entries={user.entries}/>
-      <InputUrl onInputChange={this.onInputChange}  onPictureSubmit={this.onButtonClick}/>
+      <InputUrl onInputChange={this.onInputChange}  onPictureSubmit={this.onPictureSubmit}/>
     < FaceDection box={box} imageUrl={imageUrl}/>
     </div>
      :(route ==='SignIn' ?
   
-     <SignIn onRouteChange={this.onRouteChange}/> 
+     <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}/> 
      :  <div>
      <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
      </div>
@@ -173,5 +181,3 @@ this.setState({user:
 }
 
 export default App;
- 
-  

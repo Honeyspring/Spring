@@ -25,7 +25,7 @@ class Register extends Component{
         this.setState({password2:event.target.value});
         
     } */
-    onRegister=()=>{
+    onRegister=(req,res)=>{
         fetch("http://localhost:3000/Register",
      {
      method:"post",
@@ -39,12 +39,14 @@ class Register extends Component{
       )
      .then(response=>response.json())
      .then(user=>{
-         if(user){
+         if(user.id){
              this.props.loadUser(user);
              console.log(user);
             this.props.onRouteChange('home');
          }
-    } )  
+          
+    } ).catch(error=>res.status(400).json('cannot store empty data'))
+       
     
 }
     render(){
