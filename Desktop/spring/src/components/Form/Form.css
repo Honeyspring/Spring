@@ -1,0 +1,116 @@
+.form{
+ 
+    padding: 20px;
+  max-width:900px;
+  margin:auto;
+  }
+  
+  .btn{
+      border-radius:4px;
+      float: right;
+      background-color: #3b1034ee;
+      color:#fff;
+      height: 50px;
+      
+  }
+  
+  .col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+    padding:20px;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  
+  .col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+    padding:20px;
+  }
+  
+input,select,textarea:focus{
+    outline:none;
+}
+textarea,select,input[type="email"],[type="text"],[type="password"],[type="number"]{
+    width: 100%;
+  margin:12px;
+  border-radius: 4px;
+  resize: vertical;
+    border: none;
+    border-bottom:2px solid #3b1034ee;
+
+  
+}
+label{
+  color:#3b1034ee;
+
+}
+
+.FormError{
+    display: block;
+    color:red;    
+}
+.error{
+    border: none;
+    border-bottom:1px solid red;  
+
+}
+.red{
+    color: red;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+
+.link:link, .link:visited {
+    transition: color .15s ease-in;
+}
+
+.link:hover {
+    transition: color .15s ease-in;
+}
+
+.link:active {
+    transition: color .15s ease-in;
+}
+
+.link:focus {
+    transition: color .15s ease-in;
+    outline: 1px dotted currentColor;
+}
+
+
+
+.grow {
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform .25s ease-out;
+}
+
+.grow:hover, .grow:focus {
+    transform: scale(1.05);
+}
+
+.grow:active {
+    transform: scale(.9);
+}
+
+.pointer:hover {
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 600px) {
+    .col-25, .col-75, input[type=submit],.form {
+      width: 100%;
+      margin-top: 0;
+      margin-left:0;
+    }
+  }

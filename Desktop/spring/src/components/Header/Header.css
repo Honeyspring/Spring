@@ -1,0 +1,133 @@
+.topbar {
+  top: 0px;
+ 
+height :100px;
+padding:16px 0;
+position: fixed;
+width: 100%;
+margin-left: 200px;
+box-shadow: 0 4px 8px 0 #0003;
+justify-content:flex-end;
+
+}
+.head{
+  display: flex;
+justify-content: flex-end;
+}
+.logo{
+justify-self: flex-end;
+}
+.nex{
+  color:#3b1034ee;
+
+}
+
+.glow{
+
+    color: rgb(8, 148, 101);
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+  
+}
+
+  @keyframes glow{
+  from {
+    text-shadow:  3px 1px #3b1034ee,3px 2px #fff, 3px 2px #fff, 3px 2px  rgb(8, 148, 101);;
+  }
+  
+  to {
+    text-shadow: 3px 1px  rgb(173, 244, 253),3px 1px  #fff, 3px  1px  rgb(8, 148, 101);
+  }
+ }
+.sidebar {
+top: 0px;
+margin: 0;
+padding: 0;
+width: 200px;
+background-color:  #3b1034ee;
+position: fixed;
+height: 100%;
+z-index: 1;
+overflow-x: hidden;
+}
+.side{
+  margin-top: 5em;
+  width:50%;
+  display:flex;
+  flex-direction: column;
+}
+.side img{
+  max-width:25%;
+}
+.sidebar p{
+  color:rgb(8, 148, 101);
+}
+
+ .link ,p{
+display: block;
+padding: 16px;
+text-decoration: none;
+color:#fff;
+}
+
+ .active ,.link:active{
+background-color: rgb(8, 148, 101);
+color: #fff;
+}
+
+ .link:hover:not(.active) {
+background-color: #fff;
+color:#c710e6;
+}
+
+
+.dropdown{
+
+  overflow: hidden;
+}
+.dropdown-content {
+ 
+  display: none;
+  background-color: #f1f1f1;
+  min-width: 200px;
+  z-index: 1;
+}
+.dropdown-content .link{
+  color:rgb(8, 148, 101);
+  float:none;
+}  
+.dropdown:hover .dropdown-content {display: block; }
+.dropdown-content .active{
+  color:#fff;
+ 
+ 
+} 
+.dropdown:hover:not(.active) {
+  background:none;
+  
+  }
+
+
+@media screen and (max-width: 700px) {
+  .sidebar ,.topbar{
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+ .sidebar .link{float: left;}
+ .dropdown .link{float: none;}
+   button{float:none;}
+  .main,.topbar ,.side,.flex{margin-left: 0; margin-top: 0;}
+ .col-25, .col-75{
+    width: 100%;
+    margin-top: 0;
+  }
+.side,#welcome{
+  display: none;
+ 
+}
+
+
+
+}

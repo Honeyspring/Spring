@@ -1,0 +1,88 @@
+body,h1,h2,h3,h4,h5,h6 {font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+ color: rgb(9, 179, 114);
+}
+.w3-bar-block .w3-bar-item {padding:20px}
+
+
+.main{
+  margin-left: 100px;
+  padding: 8px 16px;
+  margin-top: 150px;
+
+
+}
+.link {
+  text-decoration: none;
+  transition: color .15s ease-in;
+}
+
+.link:link, .link:visited {
+  transition: color .15s ease-in;
+}
+
+.link:hover {
+  transition: color .15s ease-in;
+  color:#c710e6;
+}
+
+.link:active {
+  transition: color .15s ease-in;
+}
+
+.link:focus {
+  transition: color .15s ease-in;
+  outline: 1px dotted currentColor;
+}
+
+
+article{
+	margin: 10px;
+	text-align: center;
+	padding: 16px;
+	box-shadow: 4px 4px 8px 0 rgba( 0, 0, 0, .2 );
+	border-radius: 0.5rem;
+	
+}
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+
+button {
+  background-color: rgb(63, 150, 117);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+  margin: 3px;
+}
+
+ 
+
+.delete {
+background-color: #ef997e;
+  color: white;
+float: left;
+margin: 3px;
+}
+.delete:hover {
+  background-color: #ff0000;
+}
+button:hover {
+  background-color: #45a049;
+}
+
+
+
+@media screen and (max-width: 700px) {
+  
+   button{float:none;}
+  .main{margin-left: 0; margin-top: 0;}
+ .col-25, .col-75{
+    width: 100%;
+    margin-top: 0;
+  }
+}

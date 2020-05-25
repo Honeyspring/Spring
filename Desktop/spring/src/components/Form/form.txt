@@ -1,0 +1,258 @@
+import React ,{Component}from 'react';
+import './Form.css';
+class Form extends Component {
+constructor(props){
+  super(props);
+    
+   this.state = {
+     FormTitle : "",
+    FormAuthor :"",
+    FormPages :"",
+    FormStatus :"",
+    FormImageUrl : "",
+    FormDescription : "",
+    FormError:{
+    FormTitle : "",
+    FormAuthor :"",
+    FormPages :"",
+    FormStatus :"",
+    FormImageUrl : "",
+    FormDescription : ""
+    }
+        }
+}
+
+onTitleChange=(event)=>{
+      this.setState({ FormTitle:event.target.value.replace(/[^A-Za-z]/ig, '')});
+     
+      
+  }
+ onAuthorChange=(event)=>{
+      this.setState({FormAuthor:event.target.value});
+     
+  }
+
+ onPagesChange=(event)=>{
+   this.setState({FormPages:event.target.value});
+  
+      
+  }
+  onStatusChange=(event)=>{
+      this.setState({FormStatus:event.target.value});
+     
+  }
+onImageUrlSelect=(event)=>{
+      this.setState({FormImageUrl:event.target.value});
+    
+  }
+  onDescriptionChange=(event)=>{
+      this.setState({FormDescription:event.target.value});
+     
+  }
+ 
+
+onFormSubmit = (req,res) => {
+/* const Book={
+title : this.state.FormTitle,
+author:this.state.FormAuthor,
+pages :this.state.FormPages,
+ status :this.state.FormStatus,
+imageUrl : this.state.FormImageUrl,
+description : this.state.FormDescription 
+} */
+fetch("http://localhost:3000/api/book",
+{
+method:"post",
+headers:{"content-Type":"application/json"},
+body:JSON.stringify({
+title : this.state.FormTitle,
+author:this.state.Author,
+pages :this.state.FormPages,
+ itatus :this.state.FormStatus,
+imageUrl : this.state.FormImageUrl,
+description : this.state.FormDescription 
+})
+}).then(response=>response.status(201).json(response))
+.then(book=>{
+      this.props.loadLibrary(book);
+      console.log(book);
+     
+   
+} )
+.catch(err =>res.status(400).json('unable to connect to Api'));
+ 
+
+/* 
+
+if (!this.state.FormTitle && !this.state.FormAuthor && !this.state.FormPages&& !this.state.FormStatus ){
+
+  this.setState({FormError:{
+    FormTitle : "Field can not be empty!!!",
+    FormAuthor :"Field can not be empty!!!",
+    FormPages :"Field can not be empty!!!",
+    FormStatus :"Field can not be empty!!!",
+    FormImageUrl : "Field can not be empty!!!",
+    FormDescription : "Field can not be empty!!!"
+    }
+        })
+  
+  } else if (!this.state.FormTitle && this.state.FormAuthor && this.state.FormPages&& this.state.FormStatus 
+){
+
+
+  this.setState({FormError:{
+    FormTitle : "Field can not be empty!!!",
+    FormAuthor :"",
+    FormPages :"",
+    FormStatus :"",
+    FormImageUrl : "",
+    FormDescription : ""
+  }
+    })
+     
+  }else if (this.state.FormTitle && !this.state.FormAuthor && this.state.FormPages&& this.state.FormStatus 
+){
+ this.setState({FormError:{
+    FormTitle : "",
+    FormAuthor :"Field can not be empty!!!",
+    FormPages :"",
+    FormStatus :"",
+    FormImageUrl : "",
+    FormDescription : "",
+    FormReportedCases : "",
+    FormPopulation : "",
+    FormTotalHospitalBeds :""
+  }
+    })
+  
+  }else if (this.state.FormTitle && this.state.FormAuthor && !this.state.FormPages&& this.state.FormStatus 
+){
+   this.setState({FormError:{
+    FormTitle : "",
+    FormAuthor :"",
+    FormPages :"Field can not be empty!!!",
+    FormStatus :"",
+    FormImageUrl : "",
+    FormDescription : "",      }
+        })
+ 
+  } else if (this.state.FormTitle && this.state.FormAuthor && this.state.FormPages&& !this.state.FormStatus 
+){
+  this.setState({FormError:{
+    FormTitle : "",
+    FormAuthor :"",
+    FormPages :"",
+    FormStatus :"Field can not be empty!!!",
+    FormImageUrl : "",
+    FormDescription : "",      }
+        })
+ 
+} else if (this.state.FormTitle && this.state.FormAuthor && this.state.FormPages&& this.state.FormStatus 
+){
+   this.setState({FormError:{
+    FormTitle : "",
+    FormAuthor :"",
+    FormPages :"",
+    FormStatus :"",
+    FormImageUrl : "Field can not be empty!!!",
+    FormDescription : "",      }
+        })  
+} else if (this.state.FormTitle && this.state.FormAuthor && this.state.FormPages&& this.state.FormStatus 
+){
+this.setState({FormError:{
+    FormTitle : "",
+    FormAuthor :"",
+    FormPages :"",
+    FormStatus :"",
+    FormImageUrl : "",
+    FormDescription : "Field can not be empty!!!",      }
+  })
+}else if (this.state.FormTitle && this.state.FormAuthor && this.state.FormPages&& this.state.FormStatus 
+){
+   this.setState({
+    Book:Book,
+    FormError:{
+    FormTitle : "",
+    FormAuthor :"",
+    FormPages :"",
+    FormStatus :"",
+    FormImageUrl : "",
+    FormDescription : "",     
+   }
+        
+}) 
+console.log(Book);
+  } */
+
+}
+
+render(){ 
+    return(
+        <div className="main">
+        <h3 className="center">Add a new book to your library</h3>
+          <div className="form-container grow" id="bookForm">
+      <form>
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="title">Book Title</label>
+          </div>
+          <div className="col-75">
+          <label className="db fw6 lh-copy f6 FormError"  htmlFor="FormError">{this.FormError.FormTitle}</label>
+            <input type="text" id="title"  onChange={this.onTitleChange} name="title" placeholder="Book title.."/>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="author">Author(s)</label>
+          </div>
+          <div className="col-75">
+            <input type="text" id="author" onChange={this.onAuthorChange} name="author" placeholder="Book's author.."/>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="pages">Number Of Pages</label>
+          </div>
+          <div className="col-75">
+            <input type="number" id="pages" onChange={this.onPagesChange} name="pages" placeholder="Book's pages.."/>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="author">Image url</label>
+          </div>
+          <div className="col-75">
+            <input type="text" id="imageUrl"  onChange={this.onImageUrlSelect} name="imageUrl" placeholder="Book's image.."/>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="status">Reading Status</label>
+          </div>
+          <div className="col-75">
+            <select id="status" onChange={this.onStatusChange} name="status">
+              <option value="completed">Reading Completed</option>
+              <option value="inProgress">Reading In Progress</option>
+              <option value="startLater">Start Later</option>
+               <option value="startNow">Start Now</option>
+            </select>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-25">
+            <label htmlFor="description">Description</label>
+          </div>
+          <div className="col-75">
+        <textarea id="description" onChange={this.onDescriptionChange} name="description" placeholder="Write a little description of the book.." style={{height:200}}></textarea> 
+          </div>
+        </div>
+        <div className="row">
+        <input className="b ph3 pv2  ba b--black grow pointer f6 dib btn" onClick={this.onFormSubmit} type="submit" id ="submit" value="Add Book data-go-estimate"/>
+        </div>
+      </form>
+    </div>
+    </div>
+      );
+    }
+  }
+export default Form;
