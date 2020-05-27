@@ -5,7 +5,9 @@
     
   .foot{
     display: block;
-   
+ bottom: 0;
+
+
   }
   .foot img{
 max-width:7%;

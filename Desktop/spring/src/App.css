@@ -2,7 +2,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family:"Palatino Linotype", "Book Antiqua", Palatin
  color: rgb(9, 179, 114);
 }
 .w3-bar-block .w3-bar-item {padding:20px}
-
+:root {
+  --rowNum: 0;
+  --colNum: 0;
+  
+ 
+}
 
 .main{
   margin-left: 100px;

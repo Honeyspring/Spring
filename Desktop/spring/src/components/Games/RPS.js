@@ -23,22 +23,21 @@ class RPS extends Component {
        this.choiceRock = this.choiceRock.bind(this);
        this.choicePaper = this.choicePaper.bind(this);
        this.choiceScissors = this.choiceScissors.bind(this);
-       this.modal = this.modal.bind(this);
-       this.close = this.close.bind(this);
+       this.modal = React.createRef();
        this.playRound = this.playRound.bind(this);
     }
 
 // When the user clicks the button, open the modal 
-modal=()=> {  
-    document.getElementById('modal').style.display = "block";
-    document.getElementById('flex').style.display = "none";
+open=()=> {  
+    this.modal.current.style.display = "block";
+    
     
   }
   
   // When the user clicks on <span> (x), close the modal
  close=()=> {
-    document.getElementById('modal').style.display = "none";
-    document.getElementById('flex').style.display = "flex";
+    this.modal.current.style.display = "none";
+    
   }
   
   // When the user clicks anywhere outside of the modal, close it
@@ -66,7 +65,7 @@ componentDidMount(){
     this.setState({playerSelection:"ROCK"},()=>{
         this.computerPlay();
         this.playRound();
-        this.modal();  
+        this.open();  
         console.log(this.state.playerSelection);
     })
     return(this.state.playerSelection,this.state.computerSelection,this.state.winner);
@@ -78,7 +77,7 @@ componentDidMount(){
     this.setState({playerSelection:"PAPER"},()=>{
         this.computerPlay();
         this.playRound();
-        this.modal();  
+        this.open();  
         console.log(this.state.playerSelection);
     })
     
@@ -89,7 +88,7 @@ choiceScissors=()=>{
      this.setState({playerSelection:"SCISSORS"},()=>{
         this.computerPlay();
         this.playRound();
-        this.modal();  
+        this.open();  
         console.log(this.state.playerSelection);
     })
    
@@ -172,7 +171,7 @@ playRound = () => {
        </main>
 </article> 
 </div>
-        <div className=" modal" id="modal">
+        <div className=" modal"ref={this.modal} id="modal">
         
         <article className="modal-content   ba dark-gray b--black-10 mv4 w-100 w-100-m w-100-l mw6 shadow-5 center">
         <span className="close" onClick={this.close}>&times;</span>
